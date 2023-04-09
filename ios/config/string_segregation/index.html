@@ -1,0 +1,2924 @@
+
+<!DOCTYPE html>
+
+<html class="no-js" lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width,initial-scale=1" name="viewport"/>
+<link href="../security/" rel="prev"/>
+<link href="../swift_lint/" rel="next"/>
+<link href="../../../assets/images/favicon.png" rel="icon"/>
+<meta content="mkdocs-1.4.2, mkdocs-material-9.1.6" name="generator"/>
+<title>String Segregation - obsidian-mkdocs template</title>
+<link href="../../../assets/stylesheets/main.ded33207.min.css" rel="stylesheet"/>
+<link href="../../../assets/stylesheets/palette.a0c5b2b5.min.css" rel="stylesheet"/>
+<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
+<link href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&amp;display=fallback" rel="stylesheet"/>
+<style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+<script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+</head>
+<body data-md-color-accent="indigo" data-md-color-primary="pink" data-md-color-scheme="default" dir="ltr">
+<script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+<input autocomplete="off" class="md-toggle" data-md-toggle="drawer" id="__drawer" type="checkbox"/>
+<input autocomplete="off" class="md-toggle" data-md-toggle="search" id="__search" type="checkbox"/>
+<label class="md-overlay" for="__drawer"></label>
+<div data-md-component="skip">
+<a class="md-skip" href="#string-segregation">
+          Skip to content
+        </a>
+</div>
+<div data-md-component="announce">
+</div>
+<header class="md-header md-header--shadow" data-md-component="header">
+<nav aria-label="Header" class="md-header__inner md-grid">
+<a aria-label="obsidian-mkdocs template" class="md-header__button md-logo" data-md-component="logo" href="../../.." title="obsidian-mkdocs template">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"></path></svg>
+</a>
+<label class="md-header__button md-icon" for="__drawer">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"></path></svg>
+</label>
+<div class="md-header__title" data-md-component="header-title">
+<div class="md-header__ellipsis">
+<div class="md-header__topic">
+<span class="md-ellipsis">
+            obsidian-mkdocs template
+          </span>
+</div>
+<div class="md-header__topic" data-md-component="header-topic">
+<span class="md-ellipsis">
+            
+              String Segregation
+            
+          </span>
+</div>
+</div>
+</div>
+<form class="md-header__option" data-md-component="palette">
+<input aria-label="Switch to dark mode" class="md-option" data-md-color-accent="indigo" data-md-color-media="(prefers-color-scheme: light)" data-md-color-primary="pink" data-md-color-scheme="default" id="__palette_1" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_2" hidden="" title="Switch to dark mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 6H7c-3.31 0-6 2.69-6 6s2.69 6 6 6h10c3.31 0 6-2.69 6-6s-2.69-6-6-6zm0 10H7c-2.21 0-4-1.79-4-4s1.79-4 4-4h10c2.21 0 4 1.79 4 4s-1.79 4-4 4zM7 9c-1.66 0-3 1.34-3 3s1.34 3 3 3 3-1.34 3-3-1.34-3-3-3z"></path></svg>
+</label>
+<input aria-label="Switch to light mode" class="md-option" data-md-color-accent="blue" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-primary="pink" data-md-color-scheme="slate" id="__palette_2" name="__palette" type="radio"/>
+<label class="md-header__button md-icon" for="__palette_1" hidden="" title="Switch to light mode">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M17 7H7a5 5 0 0 0-5 5 5 5 0 0 0 5 5h10a5 5 0 0 0 5-5 5 5 0 0 0-5-5m0 8a3 3 0 0 1-3-3 3 3 0 0 1 3-3 3 3 0 0 1 3 3 3 3 0 0 1-3 3Z"></path></svg>
+</label>
+</form>
+<label class="md-header__button md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+</label>
+<div class="md-search" data-md-component="search" role="dialog">
+<label class="md-search__overlay" for="__search"></label>
+<div class="md-search__inner" role="search">
+<form class="md-search__form" name="search">
+<input aria-label="Search" autocapitalize="off" autocomplete="off" autocorrect="off" class="md-search__input" data-md-component="search-query" name="query" placeholder="Search" required="" spellcheck="false" type="text"/>
+<label class="md-search__icon md-icon" for="__search">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"></path></svg>
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"></path></svg>
+</label>
+<nav aria-label="Search" class="md-search__options">
+<button aria-label="Clear" class="md-search__icon md-icon" tabindex="-1" title="Clear" type="reset">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"></path></svg>
+</button>
+</nav>
+</form>
+<div class="md-search__output">
+<div class="md-search__scrollwrap" data-md-scrollfix="">
+<div class="md-search-result" data-md-component="search-result">
+<div class="md-search-result__meta">
+            Initializing search
+          </div>
+<ol class="md-search-result__list" role="presentation"></ol>
+</div>
+</div>
+</div>
+</div>
+</div>
+</nav>
+</header>
+<div class="md-container" data-md-component="container">
+<main class="md-main" data-md-component="main">
+<div class="md-main__inner md-grid">
+<div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Navigation" class="md-nav md-nav--primary" data-md-level="0">
+<label class="md-nav__title" for="__drawer">
+<a aria-label="obsidian-mkdocs template" class="md-nav__button md-logo" data-md-component="logo" href="../../.." title="obsidian-mkdocs template">
+<svg viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"></path></svg>
+</a>
+    obsidian-mkdocs template
+  </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../..">
+        Home
+      </a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          Backend
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_2">
+<span class="md-nav__icon md-icon"></span>
+          Backend
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../backend/README_backend/">
+        README backend
+      </a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_2" id="__nav_2_2_label" tabindex="0">
+          Node
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_2_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_2_2">
+<span class="md-nav__icon md-icon"></span>
+          Node
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../backend/node/README_node/">
+        Node
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../backend/node/aws/">
+        Aws
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../backend/node/dot_env/">
+        Dot env
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../backend/node/dynamic_environment/">
+        Dynamic Environment
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../backend/node/post_method/">
+        POST Method
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../backend/node/serverless/">
+        Serverless
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_3" id="__nav_2_3_label" tabindex="0">
+          Python
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_3_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_2_3">
+<span class="md-nav__icon md-icon"></span>
+          Python
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../backend/python/README_python/">
+        Python
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../backend/python/shortcuts/">
+        Key Shortcuts
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_2_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_2_4" id="__nav_2_4_label" tabindex="0">
+          Ruby
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_2_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_2_4">
+<span class="md-nav__icon md-icon"></span>
+          Ruby
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../backend/ruby/README_ruby/">
+        README ruby
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../backend/ruby/hello_world/">
+        Hello World
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../backend/ruby/ternary/">
+        Ternary
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          Database
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_3">
+<span class="md-nav__icon md-icon"></span>
+          Database
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../database/README_database/">
+        README database
+      </a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_2" id="__nav_3_2_label" tabindex="0">
+          Docker
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_2_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_2">
+<span class="md-nav__icon md-icon"></span>
+          Docker
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../database/docker/README_docker/">
+        Docker
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../database/docker/build/">
+        Docker Build
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../database/docker/commands/">
+        Docker Commands
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../database/docker/docker_rough_build_commands/">
+        docker\_build\_\_t\_user\_mysql\_666
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../database/docker/info/">
+        Info
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_3" id="__nav_3_3_label" tabindex="0">
+          Mongo
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_3_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_3">
+<span class="md-nav__icon md-icon"></span>
+          Mongo
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../database/mongo/README_mongoDB/">
+        Mongo
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../database/mongo/connection/">
+        Connection
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_3_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_3_4" id="__nav_3_4_label" tabindex="0">
+          Sql
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_3_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_3_4">
+<span class="md-nav__icon md-icon"></span>
+          Sql
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../database/sql/README_sql/">
+        SQL
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../database/sql/basic_sql_cli/">
+        CLI
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../database/sql/crud_operations/">
+        CRUD Operations
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../database/sql/setup/">
+        Setup
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          Frontend
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_4">
+<span class="md-nav__icon md-icon"></span>
+          Frontend
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/README_frontend/">
+        README frontend
+      </a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4_2" id="__nav_4_2_label" tabindex="0">
+          Angular
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_2_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_4_2">
+<span class="md-nav__icon md-icon"></span>
+          Angular
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/angular/README_angular/">
+        Angular
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/angular/angular/">
+        angular
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4_3" id="__nav_4_3_label" tabindex="0">
+          Css
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_3_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_4_3">
+<span class="md-nav__icon md-icon"></span>
+          Css
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/css/README_css/">
+        CSS
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/css/alignment/">
+        Alignment
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/css/elements/">
+        White space
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/css/flex_layout/">
+        Flex Layout
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/css/grid_layout/">
+        Grid Layout
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/css/link_underline_removal/">
+        Override Defaults
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/css/preferences_inferences/">
+        Journey
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4_4" id="__nav_4_4_label" tabindex="0">
+          Html
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_4_4">
+<span class="md-nav__icon md-icon"></span>
+          Html
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/html/README_html/">
+        HTML
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/html/device/">
+        Device
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/html/mobile/">
+        Mobile
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/html/responsive/">
+        Responsive
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/html/syntax/">
+        Syntax
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4_5" id="__nav_4_5_label" tabindex="0">
+          Javascript
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_5_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_4_5">
+<span class="md-nav__icon md-icon"></span>
+          Javascript
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/javascript/README_javascript/">
+        Javascript
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/javascript/css_iFrame/">
+        CSS iFrame
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/javascript/dark_mode/">
+        Dark mode
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/javascript/data_checks/">
+        Data checks
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/javascript/float_design/">
+        Numbers
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/javascript/form/">
+        Form
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/javascript/shorthand_functions/">
+        Shorthand functions
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/javascript/string/">
+        String Manipulation
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_4_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_4_6" id="__nav_4_6_label" tabindex="0">
+          React
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_4_6_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_4_6">
+<span class="md-nav__icon md-icon"></span>
+          React
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/react/README_react/">
+        React
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/react/data_passing/">
+        Data passing
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/react/globalstyle/">
+        Global Style
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../frontend/react/state/">
+        State
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="0">
+          Ios
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_5_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_5">
+<span class="md-nav__icon md-icon"></span>
+          Ios
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../README_iOS/">
+        iOS
+      </a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5_2" id="__nav_5_2_label" tabindex="0">
+          Automation
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_2_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_5_2">
+<span class="md-nav__icon md-icon"></span>
+          Automation
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../automation/README_automation/">
+        Automation
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../automation/auto_increment/">
+        Script Error
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../automation/auto_tagging/">
+        Auto tagging
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../automation/ci_cd/">
+        CI/CD World
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../automation/fastlane/">
+        Fastlane
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../automation/github_actions/">
+        GitHub Actions
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../automation/gitlab_ci_yml/">
+        Gitlab CI Yaml
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../automation/ios_ci_cd/">
+        Xcode iOS CICD
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../automation/release/">
+        Release
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../automation/testflight/">
+        TestFlight
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../automation/travis_ci_timeline/">
+        Travis CI Timeline
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../automation/travis_ci_yml/">
+        Travis CI
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--active md-nav__item--nested">
+<input checked="" class="md-nav__toggle md-toggle" id="__nav_5_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5_3" id="__nav_5_3_label" tabindex="0">
+          Config
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="true" aria-labelledby="__nav_5_3_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_5_3">
+<span class="md-nav__icon md-icon"></span>
+          Config
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../README_config/">
+        Config
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../analytics/">
+        Analytics
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../app_environment/">
+        App Environment
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../app_store%20_connect/">
+        App store  connect
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../ats_plist/">
+        Ats plist
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../best_practices/">
+        Best practices
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../certificate/">
+        Certificate
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../dSYM/">
+        dSYM
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../danger/">
+        Danger
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../developer_account/">
+        Developer Account
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../firebase/">
+        Firebase
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../jailbreak/">
+        Jailbreak
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../linking/">
+        Linking
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../naming/">
+        Naming
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../provisioning/">
+        Provisioning
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../secret_keys/">
+        Secret Keys
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../security/">
+        Security
+      </a>
+</li>
+<li class="md-nav__item md-nav__item--active">
+<input class="md-nav__toggle md-toggle" id="__toc" type="checkbox"/>
+<label class="md-nav__link md-nav__link--active" for="__toc">
+          String Segregation
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<a class="md-nav__link md-nav__link--active" href="./">
+        String Segregation
+      </a>
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#code-ergonomics">
+    Code Ergonomics
+  </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../swift_lint/">
+        SwiftLint
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../upgrade/">
+        Upgrade
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../xcconfig/">
+        Xcconfig
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5_4" id="__nav_5_4_label" tabindex="0">
+          Library
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_5_4">
+<span class="md-nav__icon md-icon"></span>
+          Library
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../library/README_library/">
+        Library
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../library/cocoapods/">
+        Cocoapods
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../library/codable/">
+        Codable
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../library/date_time/">
+        Date and Time
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../library/foundation_library/">
+        Foundation Library
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../library/framework/">
+        Framework
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../library/functional_programming/">
+        Functional programming
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../library/import/">
+        Import
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../library/jailbreak/">
+        Jailbreak
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../library/keychain/">
+        Keychain
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../library/macaw/">
+        Macaw
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../library/math/">
+        Math
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../library/moya/">
+        Moya
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../library/objectiveC_header/">
+        Objective C Header
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../library/realm/">
+        Realm
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../library/sirikit/">
+        SiriKit
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../library/snapkit/">
+        SnapKit
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../library/storage/">
+        Storage
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../library/webkit/">
+        Webkit
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../library/wildcard_checks/">
+        Wildcard checks
+      </a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5_4_21" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5_4_21" id="__nav_5_4_21_label" tabindex="0">
+          Realm
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_4_21_label" class="md-nav" data-md-level="3">
+<label class="md-nav__title" for="__nav_5_4_21">
+<span class="md-nav__icon md-icon"></span>
+          Realm
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../library/realm/rlm_exception_crash/">
+        RLMException Crash
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5_5" id="__nav_5_5_label" tabindex="0">
+          Lifecycle
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_5_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_5_5">
+<span class="md-nav__icon md-icon"></span>
+          Lifecycle
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/MVVM/">
+        MVVM
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/README_lifecycle/">
+        README lifecycle
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/app_delegate/">
+        App Delegate Lifecycle
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/arc/">
+        ARC
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/background_tasks/">
+        Background Tasks
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/class/">
+        Class
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/dark_mode/">
+        Dark Mode
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/dimensions/">
+        Dimensions
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/documentation/">
+        Documentation
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/extensions/">
+        Extensions
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/inheritance/">
+        Inheritance
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/localization/">
+        Localization
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/logging/">
+        Logging
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/network_calls/">
+        Network calls
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/orientation/">
+        Orientation
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/plist/">
+        Plist
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/read_local_file/">
+        Read Local Files
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/retain_cycle/">
+        Retain Cycle
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/rtl_alignment_support/">
+        Reusable component for Text Alignment
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/segues/">
+        Segues
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/state_architecture/">
+        State architecture
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/storyboard_refactor/">
+        StoryBoard
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/structs/">
+        Structs
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/swift_types/">
+        Swift types
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/thread_concurrency/">
+        Concurrency
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/timer/">
+        Timer
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/unowned_vs_weak/">
+        Unowned vs weak
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/user_defaults/">
+        User Defaults
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../lifecycle/view_controllers/">
+        View Controllers
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5_6" id="__nav_5_6_label" tabindex="0">
+          rxSwift
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_6_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_5_6">
+<span class="md-nav__icon md-icon"></span>
+          rxSwift
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/README_rxSwift/">
+        RxSwift
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/additional_links/">
+        Additional Links
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/asObserver_vs_asObservable/">
+        asObserver vs asObservable
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/autoComplete/">
+        autoComplete
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/bind_vs_subscribe/">
+        Bind vs Subscribe
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/binder/">
+        Binder
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/combination/">
+        Combination
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/completion/">
+        Completion
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/concurrency_rxSwift/">
+        Concurrency
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/conversionRxObservableConcrete/">
+        conversionRxObservableConcrete
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/disposeBag/">
+        disposeBag
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/distinct/">
+        Distinct
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/documentation/">
+        Documentation
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/doubts/">
+        Doubts
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/error_handling/">
+        Error Handling
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/flatMap/">
+        FlatMap
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/map/">
+        Map
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/merge/">
+        Merge
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/observe/">
+        Observe
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/pain_points/">
+        Pain points
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/playground/">
+        Playground
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/prerequisites/">
+        Prerequisites
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/relays/">
+        Relays
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/resources/">
+        Resources
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/rough_work/">
+        Rough work
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/rx_best_practices/">
+        RxSwift Best Practises
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/rx_extensions/">
+        Extensions
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/rx_tests/">
+        RxTest
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/share/">
+        Share
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/side_effects/">
+        Side effects
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/subscribe/">
+        Subscribe
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/tableView/">
+        tableView
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/threads/">
+        Threads
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/timeline/">
+        Timeline
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/timer/">
+        Timer
+      </a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5_6_36" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5_6_36" id="__nav_5_6_36_label" tabindex="0">
+          Issues
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_6_36_label" class="md-nav" data-md-level="3">
+<label class="md-nav__title" for="__nav_5_6_36">
+<span class="md-nav__icon md-icon"></span>
+          Issues
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/Issues/segmentation_fault/">
+        Segmentation fault
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../rxSwift/Issues/subscription_chain_not_firing/">
+        Subscription chain not firing
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5_7" id="__nav_5_7_label" tabindex="0">
+          Swift
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_7_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_5_7">
+<span class="md-nav__icon md-icon"></span>
+          Swift
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/README_swift/">
+        Swift
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/arrays/">
+        Arrays
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/associated_types/">
+        Associated types
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/attribute/">
+        Attribute
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/closure/">
+        Closures
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/completion_handlers/">
+        Completion handlers
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/data_structure/">
+        Data Structure
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/dictionary/">
+        Dictionary
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/enum/">
+        Enum
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/executables/">
+        Executables
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/functions/">
+        functions
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/generics/">
+        Generics
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/keypaths/">
+        KeyPaths
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/numbers/">
+        Numbers
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/optimization/">
+        Optimization
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/optionals/">
+        Optionals
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/property_wrapper/">
+        Property wrapper
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/random/">
+        Random
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/safe_programming/">
+        Safe
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/short_hands/">
+        ShortHands
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/string/">
+        String
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/switch/">
+        Switch
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/ternary/">
+        Ternary
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../swift/type_casting/">
+        Type Casting
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5_8" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5_8" id="__nav_5_8_label" tabindex="0">
+          Test
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_8_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_5_8">
+<span class="md-nav__icon md-icon"></span>
+          Test
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../test/README_test/">
+        README test
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../test/XCTest/">
+        XCTest
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../test/crash/">
+        Crash
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../test/error_handling/">
+        Error Handling
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../test/error_state/">
+        Error state
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../test/measure/">
+        Measure
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../test/mock/">
+        Mock
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../test/mocks/">
+        Mocks
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../test/names/">
+        Introduction
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../test/parametrized_unit_tests/">
+        Parametrized unit tests
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../test/stubs/">
+        Stubs
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../test/test/">
+        Test
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5_9" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5_9" id="__nav_5_9_label" tabindex="0">
+          Ui
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_9_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_5_9">
+<span class="md-nav__icon md-icon"></span>
+          Ui
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/README_ui/">
+        UI
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/auto_layout/">
+        Auto layout
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/checkbox/">
+        CheckBox
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/constraints/">
+        Constraints
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/date_picker/">
+        Date Picker
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/dropdown_picker/">
+        Dropdown Picker
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/gesture_recognizer/">
+        Gesture Recognizer
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/keyboard/">
+        Keyboard
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/navigation_controller/">
+        Navigation Controller
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/textfield/">
+        TextField
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/transitions/">
+        transitions
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/uiAppearance/">
+        Intro
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/uiButton/">
+        Button
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/uiImage/">
+        uiImage
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/uiKit/">
+        UIKit
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/uiLabel/">
+        uiLabel
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/uiPageController/">
+        uiPageController
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/uiScrollView/">
+        Scroll View
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/uiStackView/">
+        UI StackView
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/uiTableViewCell/">
+        UITableViewCell
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/uiView/">
+        UIView
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/uiViewController/">
+        uiViewController
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/uiimagepicker/">
+        UIImagePickerController
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../ui/uitableview/">
+        Uitableview
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_5_10" type="checkbox"/>
+<label class="md-nav__link" for="__nav_5_10" id="__nav_5_10_label" tabindex="0">
+          Xcode
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_5_10_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_5_10">
+<span class="md-nav__icon md-icon"></span>
+          Xcode
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../xcode/README_xcode/">
+        Xcode
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../xcode/build_commands/">
+        Build Commands
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../xcode/build_errors/">
+        Build Errors
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../xcode/command_line/">
+        Command line
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../xcode/debug/">
+        Debugging
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../xcode/environment_Variables/">
+        environment Variables
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../xcode/instruments/">
+        Instruments
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../xcode/ipa_generation/">
+        iPA Generation
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../xcode/performance/">
+        Performance
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../xcode/playgrounds/">
+        Playgrounds
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../xcode/resign_cli/">
+        Resign CLI
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../xcode/runtime_errors/">
+        Runtime errors
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../xcode/settings/">
+        Settings
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../xcode/simulator/">
+        Simulator
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../xcode/spm/">
+        spm
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../xcode/target_scheme/">
+        Target scheme
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../xcode/upgrade/">
+        Upgrade
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../xcode/wireless_deploy/">
+        Wireless Deploy
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../xcode/xcode_merge/">
+        Project Merge
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+          Misc
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_6">
+<span class="md-nav__icon md-icon"></span>
+          Misc
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../misc/README_misc/">
+        README misc
+      </a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_6_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6_2" id="__nav_6_2_label" tabindex="0">
+          Algorithm
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_2_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_6_2">
+<span class="md-nav__icon md-icon"></span>
+          Algorithm
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../misc/algorithm/README_algorithm/">
+        Algorithm
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../misc/algorithm/algorithm/">
+        Algorithm
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../misc/algorithm/timeline/">
+        Timeline
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_6_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6_3" id="__nav_6_3_label" tabindex="0">
+          Best coding practices
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_3_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_6_3">
+<span class="md-nav__icon md-icon"></span>
+          Best coding practices
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../misc/best_coding_practices/README_best_coding_practices/">
+        Workflow
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../misc/best_coding_practices/best_coding_practices/">
+        Best Coding Practices
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_6_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6_4" id="__nav_6_4_label" tabindex="0">
+          Logic
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_6_4">
+<span class="md-nav__icon md-icon"></span>
+          Logic
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../misc/logic/README_logic/">
+        Logic
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../misc/logic/logic_gates/">
+        Logic Gates
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_6_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6_5" id="__nav_6_5_label" tabindex="0">
+          Network
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_5_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_6_5">
+<span class="md-nav__icon md-icon"></span>
+          Network
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../misc/network/README_network/">
+        Network
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../misc/network/pi_hole/">
+        Pi Hole
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../misc/network/wireshark/">
+        Wireshark
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_6_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_6_6" id="__nav_6_6_label" tabindex="0">
+          Regular expressions
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_6_6_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_6_6">
+<span class="md-nav__icon md-icon"></span>
+          Regular expressions
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../misc/regular_expressions/README_regular_expressions/">
+        README regular expressions
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../misc/regular_expressions/quotations_each_line/">
+        Quotations each line
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="0">
+          Mobile
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_7_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_7">
+<span class="md-nav__icon md-icon"></span>
+          Mobile
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../mobile/README_mobile/">
+        Mobile
+      </a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_7_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_7_2" id="__nav_7_2_label" tabindex="0">
+          Ionic
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_7_2_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_7_2">
+<span class="md-nav__icon md-icon"></span>
+          Ionic
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../mobile/ionic/README_ionic/">
+        Ionic
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../mobile/ionic/components/">
+        Components
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../mobile/ionic/create_new_page/">
+        Creating Page
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../mobile/ionic/data_service/">
+        Data Service
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../mobile/ionic/deprecations/">
+        Deprecations
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../mobile/ionic/issues/">
+        Issues
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../mobile/ionic/learn/">
+        Learning Timeline
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../mobile/ionic/package/">
+        Packaging
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_7_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_7_3" id="__nav_7_3_label" tabindex="0">
+          Native
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_7_3_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_7_3">
+<span class="md-nav__icon md-icon"></span>
+          Native
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../mobile/native/README_native/">
+        React Native
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../mobile/native/issues/">
+        Issues
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../mobile/native/timeline/">
+        Config
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_7_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_7_4" id="__nav_7_4_label" tabindex="0">
+          Unity
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_7_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_7_4">
+<span class="md-nav__icon md-icon"></span>
+          Unity
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../mobile/unity/README_unity/">
+        Unity
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../mobile/unity/errors/">
+        Errors
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../mobile/unity/input_field/">
+        Input Field
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../mobile/unity/listeners/">
+        Listeners
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../mobile/unity/loop/">
+        Loop
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../mobile/unity/naming_conventions/">
+        Naming Conventions
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../mobile/unity/shortcuts/">
+        Shortcuts
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../mobile/unity/unity/">
+        Config
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../mobile/unity/vscode/">
+        VS Code
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_8" type="checkbox"/>
+<label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+          Os
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_8_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_8">
+<span class="md-nav__icon md-icon"></span>
+          Os
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/README_os/">
+        os
+      </a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_8_2" type="checkbox"/>
+<label class="md-nav__link" for="__nav_8_2" id="__nav_8_2_label" tabindex="0">
+          androidTV
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_8_2_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_8_2">
+<span class="md-nav__icon md-icon"></span>
+          androidTV
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/androidTV/ADB_devices/">
+        ADB devices
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_8_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_8_3" id="__nav_8_3_label" tabindex="0">
+          Architecture
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_8_3_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_8_3">
+<span class="md-nav__icon md-icon"></span>
+          Architecture
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/architecture/README_architecture/">
+        Architecture
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/architecture/architecture/">
+        Architecture
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/architecture/concurrency/">
+        Concurrency
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/architecture/design_patterns/">
+        Design patterns
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/architecture/system_designs/">
+        System designs
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_8_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_8_4" id="__nav_8_4_label" tabindex="0">
+          Linux
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_8_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_8_4">
+<span class="md-nav__icon md-icon"></span>
+          Linux
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/linux/README_linux/">
+        Linux
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/linux/disk/">
+        Disk
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/linux/grep/">
+        Grep
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/linux/home_assistant/">
+        Home assistant
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/linux/network/">
+        Network
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/linux/open_vpn/">
+        Open vpn
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/linux/raspberry_pi/">
+        Raspberry PI
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/linux/retro_pie/">
+        Retro pie
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/linux/shell_scripts/">
+        Shell Scripts
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/linux/system_service/">
+        System service
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/linux/task_manager/">
+        Task manager
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/linux/user_root/">
+        I am Root
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_8_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_8_5" id="__nav_8_5_label" tabindex="0">
+          Mac
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_8_5_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_8_5">
+<span class="md-nav__icon md-icon"></span>
+          Mac
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/mac/Compression/">
+        Compression
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/mac/README_mac/">
+        Mac
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/mac/automount%20volumes%20disable/">
+        automount volumes disable
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/mac/codesign_app/">
+        Code sign App
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/mac/disable_gatekeeper/">
+        Disable Gatekeeper
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/mac/hidden_files/">
+        Hidden Files
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/mac/mac_commands/">
+        Commands
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/mac/mac_os_quirks/">
+        OS Quirks
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/mac/permissions/">
+        File Permissions
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_8_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_8_6" id="__nav_8_6_label" tabindex="0">
+          Windows
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_8_6_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_8_6">
+<span class="md-nav__icon md-icon"></span>
+          Windows
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/windows/Kill%20Switch/">
+        Kill Switch
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/windows/README_windows/">
+        Windows
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/windows/clipboard/">
+        Clipboard
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/windows/defaults/">
+        Default
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/windows/disable_updates/">
+        Disable Windows 10 Updates
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/windows/keyboard/">
+        Keyboard
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/windows/registry/">
+        Registry
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/windows/screen/">
+        Screen
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../os/windows/wsl_folder/">
+        WSL
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_9" type="checkbox"/>
+<label class="md-nav__link" for="__nav_9" id="__nav_9_label" tabindex="0">
+          Process
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_9_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_9">
+<span class="md-nav__icon md-icon"></span>
+          Process
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../process/Copy%20Files%20Server%20CLI/">
+        Copy Files Server CLI
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../process/README_process/">
+        README process
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../process/code_checkout/">
+        Code checkout
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../process/key_shortcuts/">
+        Shortcuts
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../process/peer_review/">
+        Peer Review
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../process/release/">
+        Release
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../process/search/">
+        Search
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_10" type="checkbox"/>
+<label class="md-nav__link" for="__nav_10" id="__nav_10_label" tabindex="0">
+          Tools
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_10_label" class="md-nav" data-md-level="1">
+<label class="md-nav__title" for="__nav_10">
+<span class="md-nav__icon md-icon"></span>
+          Tools
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/README_tools/">
+        Tools
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/Tplink/">
+        Tplink
+      </a>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_10_3" type="checkbox"/>
+<label class="md-nav__link" for="__nav_10_3" id="__nav_10_3_label" tabindex="0">
+          Browsers
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_10_3_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_10_3">
+<span class="md-nav__icon md-icon"></span>
+          Browsers
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/browsers/README_browsers/">
+        Browsers
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/browsers/developer_network/">
+        Developer network
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/browsers/firefox/">
+        Firefox
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_10_4" type="checkbox"/>
+<label class="md-nav__link" for="__nav_10_4" id="__nav_10_4_label" tabindex="0">
+          Editors
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_10_4_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_10_4">
+<span class="md-nav__icon md-icon"></span>
+          Editors
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/editors/README_editors/">
+        IDE
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/editors/iterm2/">
+        iTerm2
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/editors/markdown/">
+        Markdown
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_10_5" type="checkbox"/>
+<label class="md-nav__link" for="__nav_10_5" id="__nav_10_5_label" tabindex="0">
+          Git
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_10_5_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_10_5">
+<span class="md-nav__icon md-icon"></span>
+          Git
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/git/README_git/">
+        Git
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/git/amend/">
+        amend
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/git/branch/">
+        Branch
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/git/cache/">
+        Cache
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/git/checkout/">
+        Checkout
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/git/commitizen/">
+        Commitizen
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/git/config/">
+        Config
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/git/delete/">
+        Delete
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/git/differences/">
+        Differences
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/git/errors/">
+        Errors
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/git/git_alias/">
+        Git Alias
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/git/git_attributes/">
+        Attributes
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/git/github_sync_fork/">
+        Sync Fork
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/git/guidelines/">
+        GitHub Project Guidelines
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/git/ignore/">
+        Ignore
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/git/merge/">
+        Merge
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/git/merging_two_repos/">
+        Merging two repositories
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/git/modules/">
+        Submodules
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/git/rebase/">
+        Rebase
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/git/remote/">
+        Remote
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/git/stash/">
+        Stash
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/git/tag/">
+        Tag
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/git/workflow/">
+        Workflow
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_10_6" type="checkbox"/>
+<label class="md-nav__link" for="__nav_10_6" id="__nav_10_6_label" tabindex="0">
+          Terminal
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_10_6_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_10_6">
+<span class="md-nav__icon md-icon"></span>
+          Terminal
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/terminal/Curl/">
+        Curl
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/terminal/README_terminal/">
+        Terminal
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/terminal/brew_package/">
+        Packages
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/terminal/c_language_compilation/">
+        GCC
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/terminal/cli/">
+        Shell
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/terminal/customize/">
+        Customize
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/terminal/directory/">
+        Directory Commands
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/terminal/exiftool/">
+        exiftool
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/terminal/ffmpeg/">
+        ffmpeg
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/terminal/ionic/">
+        Ionic
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/terminal/node/">
+        Node
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/terminal/power_menu/">
+        Power
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/terminal/shell_alias/">
+        Alias
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/terminal/terminal/">
+        Bash
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/terminal/vim/">
+        Vim
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/terminal/xcode/">
+        Xcode
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/terminal/youtube_dl/">
+        YouTube
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_10_7" type="checkbox"/>
+<label class="md-nav__link" for="__nav_10_7" id="__nav_10_7_label" tabindex="0">
+          Utility
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_10_7_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_10_7">
+<span class="md-nav__icon md-icon"></span>
+          Utility
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/utility/README_utility/">
+        README utility
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/utility/alfred/">
+        Alfred
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/utility/qbittorrent/">
+        Intro
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_10_8" type="checkbox"/>
+<label class="md-nav__link" for="__nav_10_8" id="__nav_10_8_label" tabindex="0">
+          Vim
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_10_8_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_10_8">
+<span class="md-nav__icon md-icon"></span>
+          Vim
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/vim/README_vim/">
+        Vim
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/vim/modes/">
+        Modes
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+<li class="md-nav__item md-nav__item--nested">
+<input class="md-nav__toggle md-toggle" id="__nav_10_9" type="checkbox"/>
+<label class="md-nav__link" for="__nav_10_9" id="__nav_10_9_label" tabindex="0">
+          Vscode
+          <span class="md-nav__icon md-icon"></span>
+</label>
+<nav aria-expanded="false" aria-labelledby="__nav_10_9_label" class="md-nav" data-md-level="2">
+<label class="md-nav__title" for="__nav_10_9">
+<span class="md-nav__icon md-icon"></span>
+          Vscode
+        </label>
+<ul class="md-nav__list" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/vscode/README_vscode/">
+        VS Code
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/vscode/extension/">
+        Extension
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/vscode/shortcuts/">
+        Shortcuts
+      </a>
+</li>
+<li class="md-nav__item">
+<a class="md-nav__link" href="../../../tools/vscode/workspace/">
+        Workspace
+      </a>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc">
+<div class="md-sidebar__scrollwrap">
+<div class="md-sidebar__inner">
+<nav aria-label="Table of contents" class="md-nav md-nav--secondary">
+<label class="md-nav__title" for="__toc">
+<span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+<ul class="md-nav__list" data-md-component="toc" data-md-scrollfix="">
+<li class="md-nav__item">
+<a class="md-nav__link" href="#code-ergonomics">
+    Code Ergonomics
+  </a>
+</li>
+</ul>
+</nav>
+</div>
+</div>
+</div>
+<div class="md-content" data-md-component="content">
+<article class="md-content__inner md-typeset">
+<h1 id="string-segregation">String Segregation<a class="headerlink" href="#string-segregation" title="Permanent link">¶</a></h1>
+<h2 id="code-ergonomics">Code Ergonomics<a class="headerlink" href="#code-ergonomics" title="Permanent link">¶</a></h2>
+<p>Multi level Nested namespaces -&gt; Direct one level namespace.</p>
+<p>Question asked: </p>
+<p>appending the nested enum namespace as a suffix to some variables is good to move forward right?</p>
+<p>for Eg.</p>
+<pre><code class="language-swift">enum CreateApp { 
+        public static let title
+}
+</code></pre>
+<p>Usage <code>String.CreateApp.title</code></p>
+<p>New Code</p>
+<pre><code class="language-swift">public static let createAppTitle
+</code></pre>
+<p>Usage <code>String.createAppTitle</code></p>
+<p>Mentor comments answer</p>
+<p>only if it's necessary, but in most cases it shouldn't be. the property name really just needs to be the string value with whitespace and diacritics removed. if you follow that algorithm, then you're more likely to prevent duplicate properties and values.</p>
+<p>again, the point of this effort is to reduce duplication and promote reusability and discoverability of available user facing strings. so including "where" the value will be used in its property declaration goes against reusability. consider the following example</p>
+<pre><code class="language-swift">public extension String {
+  public static let errorCreatingApp = "Error Creating App"
+  enum Error {
+    public static let createAppTitle = "Error Creating App"
+    public enum CreateApp {
+      public static let title = "Error Creating App".localized
+    }
+  }
+}
+</code></pre>
+<p>they all have the same value, but we should always consider the APIs we're creating/exposing and how developer friendly they are; we call that code ergonomics</p>
+<pre><code class="language-swift">UIAlertController(title: String.Error.CreateApp.title, message: nil, preferredStyle: .alert)
+UIAlertController(title: nil, message: String.Error.createAppTitle, preferredStyle: .alert)
+UIAlertController(title: nil, message: .errorCreatingApp, preferredStyle: .alert)
+</code></pre>
+<p>i'd argue the last option is the most developer friendly</p>
+<ul>
+<li>since it'd declared directly on <code>String</code> as a static property, we can omit the <code>String</code> portion of the fully qualified name</li>
+<li>since the property name is exactly what its value is, the call site reads more naturally and we can easily surmise what text will actually be rendered without needing to go look at the actual property definition</li>
+<li>since it doesn't mention anything about "where" it's intended to be used and only "what" the actual string is, we're more inclined to reuse it in places other than those deemed to be a "title" or a "description" or whatever and it not feel like we're misusing a simple string value</li>
+</ul>
+</article>
+</div>
+</div>
+</main>
+<footer class="md-footer">
+<div class="md-footer-meta md-typeset">
+<div class="md-footer-meta__inner md-grid">
+<div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" rel="noopener" target="_blank">
+      Material for MkDocs
+    </a>
+</div>
+</div>
+</div>
+</footer>
+</div>
+<div class="md-dialog" data-md-component="dialog">
+<div class="md-dialog__inner md-typeset"></div>
+</div>
+<script id="__config" type="application/json">{"base": "../../..", "features": [], "search": "../../../assets/javascripts/workers/search.208ed371.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+<script src="../../../assets/javascripts/bundle.51198bba.min.js"></script>
+<script src="../../../javascripts/mathjax.js"></script>
+<script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+<script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</body>
+</html>
